@@ -6,7 +6,6 @@ var buildNumber     = Argument<string>("buildNumber", "");
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 ///////////////////////////////////////////////////////////////////////////////
-var isLocalBuild        = !AppVeyor.IsRunningOnAppVeyor;
 var buildArtifacts      = Directory("./artifacts/packages");
 var sourceRoot          = "./src";
 var testsRoot           = "./test";
@@ -78,10 +77,7 @@ Task("Pack")
         };
 
         // add build suffix for CI builds
-        if(!isLocalBuild)
-        {
-            settings.VersionSuffix = "build" + AppVeyor.Environment.Build.Number.ToString().PadLeft(5,'0');
-        } else if (ciMode) {
+       if (ciMode) {
             settings.VersionSuffix = buildNumber;
         }
 
